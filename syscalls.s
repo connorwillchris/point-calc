@@ -8,89 +8,57 @@ section .data
     SYS_EXIT    equ 60
 
 section .text
-    global _read
-    global _write
-    global _exit
+    global      _read
+    global      _write
+    global      _exit
 
-; =====================================
-; SUBROUTINE: _read
-; 
-; DESCRIPTION:
-;   Reads a specified amount of bytes, given by rsi.
+; PURPOSE:  The read syscall for linux x86_64.
 ;
-; int _read(unsigned int fd, char *buffer, size_t n);
+; INPUT:    rdi: The file-descriptor
+;           rsi: The character buffer
+;           rdx: The number of bytes to read
 ;
-; INPUTS:
-;   rdi: File descriptor
-;   rsi: Character buffer
-;   rdx: Number of bytes to read
+; OUTPUT:   Nothing
 ;
-; OUTPUTS:
-;   *ANY REGISTERS OUTPUT*
+; NOTES:    Only for linux-x86_64
 ;
-; MODIFIES:
-;   *REGISTERS HERE*
-;
-; NOTES:
-;   *NOTES HERE*
-;
-; =====================================
+; VARIABLES:
+;           rax - The syscall number
 _read:
     mov rax, SYS_READ
     syscall
     ret
 
-; =====================================
-; SUBROUTINE: _write
-; 
-; DESCRIPTION:
-;   Writes a specified amount of bytes to the buffer.
+; PURPOSE:  The write syscall for linux x86_64.
 ;
-; int _write(unsigned int fd, char *buffer, size_t n);
+; INPUT:    rdi: The file-descriptor
+;           rsi: The character buffer
+;           rdx: The number of bytes to write
 ;
-; INPUTS:
-;   rdi: File descriptor
-;   rsi: Character buffer
-;   rdx: Number of bytes to write
+; OUTPUT:   Nothing
 ;
-; OUTPUTS:
-;   *ANY REGISTERS OUTPUT*
+; NOTES:    Only for linux-x86_64
 ;
-; MODIFIES:
-;   *REGISTERS HERE*
-;
-; NOTES:
-;   *NOTES HERE*
-;
-; =====================================
+; VARIABLES:
+;           rax - The syscall number
 _write:
     mov rax, SYS_WRITE
     syscall
     ret
 
-; =====================================
-; SUBROUTINE: _exit
-; 
-; DESCRIPTION:
-;   Exits the program with an error code, specified in
-;   exit_code.
+; PURPOSE:  The exit syscall for linux x86_64.
 ;
-; _Noreturn void _exit(unsigned char exit_code);
-;   
-; INPUTS:
-;   rdi: exit_code
+; INPUT:    rdi: The exit code
 ;
-; OUTPUTS:
-;   None
+; OUTPUT:   Nothing
 ;
-; MODIFIES:
-;   none
+; NOTES:    Only for linux-x86_64. Exits the
+;           program without returning. Use the
+;           jmp instruction when executing this
+;           subroutine.
 ;
-; NOTES:
-;   Exits the program. There is no return in this
-;   implementation. You simply `jmp` to this routine.
-;
-; =====================================
+; VARIABLES:
+;           rax - The syscall number
 _exit:
     mov rax, SYS_EXIT
     syscall

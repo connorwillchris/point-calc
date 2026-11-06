@@ -1,38 +1,38 @@
+    %assign VALUE           12
+    DIGITS              equ  7 ; 7th bit, or 1 bit for the integer part
 
-    DIVIDE_VAL      equ 6
-    SHIFT           equ 5
+%macro POWER 1
+    %assign %%result 1
+
+    %rep %1
+        %assign %%result %%result*2
+    %endrep
+
+    mov     rdi, (%%result / VALUE)
+%endmacro
 
 section .text
     global divide
 
-; =====================================
-; SUBROUTINE: divide
-; 
-; DESCRIPTION:
-;   Divides the value in rdi by 6. Returns the value in rax.
-;   
-; INPUTS:
-;   rdi: The dividend or the number to be divided
-;        by 6.
+; PURPOSE:  Divides the argument by a constant
+;           value.
 ;
-; OUTPUTS:
-;   rax
+; INPUT:    rdi: The value to divide by 6.
 ;
-; MODIFIES:
-;   rax, rdi
+; OUTPUT:   rax - The value in unsigned int
+;           format
 ;
-; NOTES:
-;   None.
+; NOTES:    Only for linux-x86_64
 ;
-; =====================================
+; VARIABLES:
+;           rax - The value that gets returned
 divide:
     mov     rax, rdi
-    mov     rdi, DIVIDE_VAL
-
-; multiply which will do the division
+;   crappy macro that will expand to (2^5) / 12
+;   expands to mov rdi, (2^5 // 12)
+    POWER   DIGITS
+;   multiply which will do the division
     mul     rdi
-
-; now, we shift right by the shift amount
-    shr     rax, SHIFT
-
+;   now, we shift right by the shift amount
+    shr     rax, DIGITS
     ret

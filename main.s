@@ -1,34 +1,27 @@
 section .data
-    s_hello_world:  db "Hello, world!", 10
-
-; some initial value
-    value           dq 7
+    s_intro         db      "Hello, world!", 0x0a, 0x00
 
 section .bss
     buf             resb    16
     BUFLEN          equ     16
 
+    CHAR_VAL        equ     'A'
+
 section .text
     global _start
 
-; EXTERNAL VARIABLES
-    extern STDIN, STDOUT, STDERR
+    extern STDIN
+    extern STDOUT
 
-; external subroutines
-; lib subroutines
-    extern _read, _write, _exit
-; divide
+    extern getc
+    extern putc
     extern divide
+    extern end
 
 _start:
-; get input...!
+    mov     rdi, 11
+    call    divide
 
-; divide the value by 6
-    mov     rbx, value      ; load the reference to value
-    mov     rdi, [rbx]      ; load the value into rdi
-    call    divide          ; call the divide subroutine
-
-; value of division is now in rax
-exit:
-    mov     rdi, rax        ; exit code 0
-    jmp     _exit           ; call the exit subroutine
+; end contains the error code in rdi
+    mov     rdi, rax
+    jmp     end

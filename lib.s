@@ -1,78 +1,44 @@
 section .data
-; =====================================
-; CONSTANTS
-; =====================================
+
     STDIN       equ 0
     STDOUT      equ 1
     STDERR      equ 2
 
+    global      STDIN
+    global      STDOUT
+    global      STDERR
+
 section .text
+    global      getc
+    global      putc
+    global      end
 
-    global STDIN
-    global STDOUT
-    global STDERR
+    extern      _read, _write, _exit
 
-    global getc
-
-    global putc
-
-; =====================================
-; SUBROUTINE: putc
-; 
-; DESCRIPTION:
-;   Writes 1 character to the STDIN.
+; PURPOSE:  This subroutine prints out one
+;           character to STDOUT.
 ;
-; int putc (int c, FILE *fd);
+; INPUT:    rdi: The character to print
 ;
-; INPUTS:
-;   rdi: int c
-;   rsi: FILE *fd
+; OUTPUT:   Nothing
 ;
-; OUTPUTS:
-;   *ANY REGISTERS OUTPUT*
+; NOTES:    NOTES HERE
 ;
-; MODIFIES:
-;   *REGISTERS HERE*
-;
-; NOTES:
-;   *NOTES HERE*
-;
-; =====================================
+; VARIABLES:
+;           rsi - The character to print
 putc:
-    push    rdi ; 1st
-    push    rsi ; 2nd
+    push    rsi
 
-;   move    rdi => rsi
-    mov     rsi, rdi
-;   pop     rsi => rdi
-    pop     rdi
+    mov     rdi, STDOUT
+    mov     rsi, rsp
+    mov     rdx, 1
+    call    _write
 
-    mov     rdi, rsi ; 1st
-    pop     rsi ; 2nd
-
+    pop     rsi
     ret
 
-; =====================================
-; SUBROUTINE: putc
-; 
-; DESCRIPTION:
-;   Writes 1 character to the STDIN.
-;
-; int putc (int c, FILE *fd);
-;
-; INPUTS:
-;   rdi: int c
-;   rsi: FILE *fd
-;
-; OUTPUTS:
-;   *ANY REGISTERS OUTPUT*
-;
-; MODIFIES:
-;   *REGISTERS HERE*
-;
-; NOTES:
-;   NOT IMPLEMENTED!
-;
-; =====================================
 getc:
     ret
+
+end:
+    jmp     _exit
