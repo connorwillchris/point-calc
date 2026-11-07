@@ -1,5 +1,4 @@
 section .data
-
     STDIN       equ 0
     STDOUT      equ 1
     STDERR      equ 2
@@ -9,9 +8,10 @@ section .data
     global      STDERR
 
 section .text
-    global      getc
     global      putc
-    global      end
+    global      exit
+    global      getc ; not implemented!
+    global      atoi ; not implemented!
 
     extern      _read, _write, _exit
 
@@ -37,8 +37,22 @@ putc:
     pop     rsi
     ret
 
+; PURPOSE:  Provides a pretty easy way to exit
+;           the program.
+;
+; INPUT:    rdi: exit code
+;
+; OUTPUT:   Nothing.
+;
+; NOTES:    Jumps to _exit, and there is no
+;           valid return.
+;
+; VARIABLES:
+;           rdi - The exitcode.
+exit:
+    jmp     _exit
+
+
+;   NOT IMPLEMENTED!
 getc:
     ret
-
-end:
-    jmp     _exit

@@ -1,6 +1,8 @@
     %assign VALUE           12
     DIGITS              equ  7 ; 7th bit, or 1 bit for the integer part
 
+; crappy macro to do the 2 ^ arg1, and move it to
+; the rdi register.
 %macro POWER 1
     %assign %%result 1
 

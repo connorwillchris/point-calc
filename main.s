@@ -5,23 +5,22 @@ section .bss
     buf             resb    16
     BUFLEN          equ     16
 
-    CHAR_VAL        equ     'A'
-
 section .text
+;   entry point
     global _start
 
+;   global constants
     extern STDIN
     extern STDOUT
 
+;   LIB subroutines
     extern getc
     extern putc
     extern divide
-    extern end
+    extern exit
 
 _start:
-    mov     rdi, 11
-    call    divide
 
-; end contains the error code in rdi
-    mov     rdi, rax
-    jmp     end
+;   rdi: the exit code
+    mov     rdi, 0
+    jmp     exit
